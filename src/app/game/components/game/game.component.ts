@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LogicaService } from '../../services/logica.service';
 
 @Component({
   selector: 'app-game',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GameComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private juego: LogicaService
+  ) { }
 
   ngOnInit() {}
 

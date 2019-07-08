@@ -12,4 +12,9 @@ export class BotonComponent implements OnInit {
 
   ngOnInit() {}
 
+  onClick() {
+    console.log(this.palabra);
+    
+  }
+
 }
