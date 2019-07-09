@@ -11,11 +11,11 @@ export class BotonComponent {
   palabra: string;
 
   @Output()
-  adivinar: EventEmitter<string> = new EventEmitter<string>();
+  acertar: EventEmitter<string> = new EventEmitter<string>();
 
   constructor() { }
   
   onClick( val: string ) {
-    this.adivinar.emit(val);
+    this.acertar.emit(val);
   }
 }

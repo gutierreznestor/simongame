@@ -1,7 +1,7 @@
 <ion-grid fixed>
     <ion-row>
         <ion-col >
-            <app-boton *ngFor="let palabra of palabrasAlAzar" [palabra]="palabra" (adivinar)="adivinarPalabra($event)">
+            <app-boton *ngFor="let palabra of palabrasAlAzar" [palabra]="palabra" (acertar)="acertarPalabra($event)">
             </app-boton>
         </ion-col>
     </ion-row>
