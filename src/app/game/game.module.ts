@@ -6,9 +6,6 @@ import { IonicModule } from "@ionic/angular";
 import { GameComponent } from './components/game/game.component';
 import { BotonComponent } from './components/boton/boton.component';
 
-// servicios
-import { LogicaService } from './services/logica.service';
-
 const components = [
   GameComponent, BotonComponent,
 ];
@@ -20,6 +17,6 @@ const components = [
     CommonModule,
     IonicModule,
   ],
-  exports: [components]
+  exports: [components],
 })
 export class GameModule { }

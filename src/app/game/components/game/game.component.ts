@@ -8,10 +8,21 @@ import { LogicaService } from '../../services/logica.service';
 })
 export class GameComponent implements OnInit {
 
+  simon: string[] = [];
+  palabrasAlAzar: string[] = [];
+
   constructor(
-    private juego: LogicaService
+    private logica: LogicaService
   ) { }
 
-  ngOnInit() {}
+  async ngOnInit() {
+    this.logica.state.subscribe( state => console.dir(state) );
+    this.simon = await this.logica.generarSimon();
+    this.palabrasAlAzar = this.logica.cuatroPalabrasAlAzar;
+  }
+
+  adivinarPalabra(val: string) { 
+    this.logica.adivinar(val);
+  }
 
 }
