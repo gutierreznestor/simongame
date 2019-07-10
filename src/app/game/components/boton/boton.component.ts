@@ -9,6 +9,8 @@ export class BotonComponent {
 
   @Input()
   palabra: string;
+  @Input()
+  active: string;
 
   @Output()
   acertar: EventEmitter<string> = new EventEmitter<string>();

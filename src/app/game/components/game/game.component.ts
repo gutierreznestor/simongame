@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LogicaService } from '../../services/logica.service';
+import { sleep } from '../../constants/constants';
 
 @Component({
   selector: 'app-game',
@@ -12,6 +13,7 @@ export class GameComponent implements OnInit {
   jugador: string[] = [];
   palabrasAlAzar: string[] = [];
   contador: number = 0;
+  copiaSimon: any[] = [];
 
   constructor(
     private logica: LogicaService
@@ -22,15 +24,19 @@ export class GameComponent implements OnInit {
       this.simon = state.simon;
       this.jugador = state.jugador;
       this.contador = state.contador;
-      console.dir(state);
       
     } );
-    this.simon = await this.logica.generarSimon();
-    this.palabrasAlAzar = this.logica.palabrasAlAzar;
+    await this.comenzarJuego();
   }
 
   async acertarPalabra(val: string) { 
     console.log(`acertarPalabra ${await this.logica.acertar(val)}`);
+  }
+
+  async comenzarJuego() {
+    this.simon = await this.logica.generarSimon();
+    this.palabrasAlAzar = this.logica.palabrasAlAzar;
+    console.log(this.palabrasAlAzar);
   }
 
 }

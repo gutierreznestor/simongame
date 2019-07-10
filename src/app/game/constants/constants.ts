@@ -8,3 +8,7 @@ export const PALABRAS_ES = [
 export const PALABRAS_EN = [
     'After', 'Age', 'Help', 'Air', 'Almost', 'Already', 'Also', 'Although', 'Always', 'All', 'Allowed', 
     'Among', 'Home', 'Another', 'Answer', 'Any', 'Anything', 'Arm', 'Art', 'Ask'];
+
+export const sleep = async tiempo => {
+    return new Promise( resolve => setTimeout(resolve,tiempo));
+}
