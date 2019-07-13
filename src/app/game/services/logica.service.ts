@@ -30,40 +30,32 @@ export class LogicaService {
   
   async generarBotonesPantalla( ...listaPalabras: string[] ): Promise<Palabra[]> {
     
-    let promesa = new Promise<Palabra[]>((resolve) => {
-      let botonesPantalla: Palabra[] = [];
-      for (let i = 0; i < CANT_BOTONES; i++) {
-        let {indice,palabra} = this.palabraRandom(listaPalabras);
-        botonesPantalla.push({ Palabra: palabra, Active: false });
-        listaPalabras.splice(indice,1);
-      }
-      resolve(botonesPantalla);
-    });
-    return promesa;
+    let botonesPantalla: Palabra[] = [];
+    for (let i = 0; i < CANT_BOTONES; i++) {
+      let {indice,palabra} = this.palabraRandom(listaPalabras);
+      botonesPantalla.push({ Palabra: palabra, Active: false });
+      listaPalabras.splice(indice,1);
+    }
+    return Promise.resolve(botonesPantalla);
   }
   
   private seleccionarPalabrasAlAzar( lista: string[], cantPalabras: number ): Promise<string[]> {
-    let promesa = new Promise<string[]>((resolve) => {
-      let palabrasAlAzar: string[] = [];
-      for (let i = 0; i < cantPalabras; i++) {
-        let random = Math.floor(Math.random() * lista.length);
-        palabrasAlAzar.push(lista.splice(random, 1)[0]);
-      }
-      resolve(palabrasAlAzar);
-    });
-    return promesa;
+
+    let palabrasAlAzar: string[] = [];
+    for (let i = 0; i < cantPalabras; i++) {
+      let random = Math.floor(Math.random() * lista.length);
+      palabrasAlAzar.push(lista.splice(random, 1)[0]);
+    }
+    return Promise.resolve(palabrasAlAzar);
   } 
   
   async agregarASimon( incrementar: boolean = false, listaPalabras: string[] ): Promise<string> {
     
-    let promesa = new Promise<string>( async resolve => {
-      if ( incrementar ) {
-        this.contador++;
-      }
-      let {palabra} = this.palabraRandom(listaPalabras);
-      resolve(palabra);
-    });
-    return promesa;
+    if ( incrementar ) {
+      this.contador++;
+    }
+    let {palabra} = this.palabraRandom(listaPalabras);
+    return Promise.resolve(palabra);
   }
   
   palabraRandom( listaPalabras: string[] ): { indice: number, palabra: string } {
@@ -121,15 +113,12 @@ export class LogicaService {
   }
   
   generarSimon( contador: number, ...listaPalabras: string[] ): Promise<string[]> {
-    let promesa = new Promise<string[]>( resolve => {
-      let simon: string[] = [];
-      for (let i = 0; i < contador; i++ ) {
-        let {palabra}= this.palabraRandom(listaPalabras);
-        simon.push(palabra);
-      }
-      resolve(simon);
-    });
-    return promesa;
+    let simon: string[] = [];
+    for (let i = 0; i < contador; i++ ) {
+      let {palabra}= this.palabraRandom(listaPalabras);
+      simon.push(palabra);
+    }
+    return Promise.resolve(simon);
   }
 
   async comenzar() {
