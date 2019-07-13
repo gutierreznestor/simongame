@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LogicaService } from '../../services/logica.service';
-import { sleep } from '../../constants/constants';
+import { Palabra } from '../../models/palabra.interface';
 
 @Component({
   selector: 'app-game',
@@ -9,11 +9,10 @@ import { sleep } from '../../constants/constants';
 })
 export class GameComponent implements OnInit {
 
-  simon: string[] = [];
+  simon: Palabra[] = [];
   jugador: string[] = [];
-  palabrasAlAzar: string[] = [];
   contador: number = 0;
-  copiaSimon: any[] = [];
+  botonesPantalla: Palabra[] = [];
 
   constructor(
     private logica: LogicaService
@@ -21,22 +20,21 @@ export class GameComponent implements OnInit {
 
   async ngOnInit() {
     this.logica.state.subscribe( state => {
+      this.botonesPantalla = state.botonesPantalla;
       this.simon = state.simon;
       this.jugador = state.jugador;
       this.contador = state.contador;
       
     } );
-    await this.comenzarJuego();
+    await this.logica.initJuego();
   }
 
-  async acertarPalabra(val: string) { 
-    console.log(`acertarPalabra ${await this.logica.acertar(val)}`);
+  async acertarPalabra( palabra: Palabra ) { 
+    await this.logica.acertar(palabra);
   }
 
   async comenzarJuego() {
-    this.simon = await this.logica.generarSimon();
-    this.palabrasAlAzar = this.logica.palabrasAlAzar;
-    console.log(this.palabrasAlAzar);
+    await this.logica.comenzar();
   }
 
 }

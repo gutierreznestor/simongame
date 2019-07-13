@@ -1,4 +1,4 @@
 <ion-button shape="outline" strong color="primary" 
-  (click)=onClick(palabra) class="boton" [ngClass]="active">
-  {{ palabra }}
+  (click)=onClick(palabra) class="boton" [ngClass]='{"active": palabra.Active}'>
+  {{ palabra.Palabra }}
 </ion-button>

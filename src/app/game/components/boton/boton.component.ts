@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Palabra } from '../../models/palabra.interface';
 
 @Component({
   selector: 'app-boton',
@@ -8,16 +9,14 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 export class BotonComponent {
 
   @Input()
-  palabra: string;
-  @Input()
-  active: string;
+  palabra: Palabra;
 
   @Output()
-  acertar: EventEmitter<string> = new EventEmitter<string>();
+  acertar: EventEmitter<Palabra> = new EventEmitter<Palabra>();
 
   constructor() { }
   
-  onClick( val: string ) {
+  onClick( val: Palabra ) {
     this.acertar.emit(val);
   }
 }

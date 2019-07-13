@@ -3,7 +3,7 @@
         <ion-col style='display: block'>
             <ion-card style='max-width: 400px; margin: 0px auto;'>
                 <ion-card-header color='primary'>
-                    <ion-card-subtitle>Contador</ion-card-subtitle>
+                    <ion-card-subtitle>Palabras</ion-card-subtitle>
                 </ion-card-header>
                 <ion-card-content>
                     <ion-label color='success' style='font-size: 50px'>{{contador}}</ion-label>
@@ -13,18 +13,17 @@
     </ion-row>
     <ion-row>
         <ion-col >
-            <app-boton *ngFor='let palabra of palabrasAlAzar' [palabra]='palabra' [active]="active"
+            <app-boton *ngFor='let boton of botonesPantalla' [palabra]='boton'
                 (acertar)='acertarPalabra($event)'>
             </app-boton>
         </ion-col>
     </ion-row>
     <ion-row>
-        <ion-col>
-            <ion-list>
-                <ion-item *ngFor="let palabra of simon" text-center>
-                    <ion-label>{{palabra}}</ion-label>
-                </ion-item>
-            </ion-list>
+        <ion-col style='display: block'>
+            <ion-button style='max-width: 400px; margin: 0px auto;'
+                (click)="comenzarJuego()">
+                Comenzar
+            </ion-button>
         </ion-col>
     </ion-row>
 </ion-grid>
