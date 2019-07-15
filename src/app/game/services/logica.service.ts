@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { START_CONTADOR, PALABRAS_EN, CANT_BOTONES, sleep } from '../constants/constants';
+import { START_CONTADOR, PALABRAS_EN, CANT_BOTONES, sleep, INTERVALO_SECUENCIA } from '../constants/constants';
 import { Subject } from 'rxjs';
 import { Palabra } from '../models/palabra.interface';
 
@@ -127,11 +127,12 @@ export class LogicaService {
 
   async secuenciaBotones( botones: Palabra[], simon: string[] ) {
     for(let palabra of simon) {
-      let filtroBoton: Palabra = botones.filter( p => p.Palabra === palabra)[0];
-      filtroBoton.Active = true;
-      await sleep(1000);
-      filtroBoton.Active = false;
-      await sleep(1000);
+      let boton: Palabra = botones.filter( p => p.Palabra === palabra)[0];
+      boton.Active = false;
+      await setTimeout(() => {
+        boton.Active = true;
+      }, 1);
+      await sleep(INTERVALO_SECUENCIA);
     }
   }
 }
