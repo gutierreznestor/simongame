@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { START_CONTADOR, PALABRAS_EN, CANT_BOTONES, sleep, INTERVALO_SECUENCIA } from '../constants/constants';
 import { Subject } from 'rxjs';
 import { Palabra } from '../models/palabra.interface';
+import { Contador as Puntaje } from '../models/contador.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -13,11 +14,12 @@ export class LogicaService {
   jugador: string[] = [];
   simon: string[] = [];
   palabrasAlAzar: string[] = [];
-  contador: number;
+  puntaje$ = new Subject<Puntaje>();
   state = new Subject<any>();
   
   constructor() {
-    this.contador = START_CONTADOR;
+    let puntaje = { contador: START_CONTADOR, active: false }
+    this.puntaje$.next(puntaje);
   }
   
   async initJuego() {
@@ -26,6 +28,7 @@ export class LogicaService {
     this.botonesPantalla = await this.generarBotonesPantalla(...this.palabrasAlAzar);
     this.simon = await this.generarSimon( START_CONTADOR, ...this.palabrasAlAzar );
     this.setState();
+    this.setPuntaje(0,true);
   }
   
   async generarBotonesPantalla( ...listaPalabras: string[] ): Promise<Palabra[]> {
@@ -49,11 +52,8 @@ export class LogicaService {
     return Promise.resolve(palabrasAlAzar);
   } 
   
-  async agregarASimon( incrementar: boolean = false, listaPalabras: string[] ): Promise<string> {
-    
-    if ( incrementar ) {
-      this.contador++;
-    }
+  async palabraParaAgregar( listaPalabras: string[] ): Promise<string> {
+
     let {palabra} = this.palabraRandom(listaPalabras);
     return Promise.resolve(palabra);
   }
@@ -68,26 +68,30 @@ export class LogicaService {
   }
   
   resetearSimon() {
-    this.contador = START_CONTADOR;
+    let puntaje: Puntaje = { contador: START_CONTADOR, active: true }
+    this.puntaje$.next(puntaje)
   }
   
   async acertar( palabra: Palabra ): Promise<boolean> {
     
     this.jugador.push(palabra.Palabra);
     let adivino = await this.compararConSimon( this.jugador, this.simon );
-    
+    let puntaje = await this.puntaje$.toPromise();
     if( adivino ) {
-      if( this.jugador.length == this.contador ) {
-        let incrementarContador = true;
-        let palabra = await this.agregarASimon(incrementarContador, this.palabrasAlAzar);
+      if( this.jugador.length == puntaje.contador ) {
+        await sleep(200);
+        this.setState();
+        puntaje.contador++
+        this.setPuntaje(puntaje.contador, true);
+        let palabra = await this.palabraParaAgregar(this.palabrasAlAzar);
         this.simon.push(palabra);
         this.jugador = [];
-        await sleep(2000);
+        await sleep(1500);
         this.secuenciaBotones(this.botonesPantalla, this.simon);
       }
     } else {
       this.jugador = [];
-      this.contador = START_CONTADOR;
+      this.setPuntaje(START_CONTADOR, true);
     }
     this.setState();
     return adivino;
@@ -108,7 +112,6 @@ export class LogicaService {
       jugador: this.jugador,
       simon: this.simon,
       botonesPantalla: this.botonesPantalla,
-      contador: this.contador
     });
   }
   
@@ -127,12 +130,19 @@ export class LogicaService {
 
   async secuenciaBotones( botones: Palabra[], simon: string[] ) {
     for(let palabra of simon) {
-      let boton: Palabra = botones.filter( p => p.Palabra === palabra)[0];
-      boton.Active = false;
+      let filtroBoton: Palabra = botones.filter( p => p.Palabra === palabra)[0];
+      filtroBoton.Active = false;
       await setTimeout(() => {
-        boton.Active = true;
+        filtroBoton.Active = true;
       }, 1);
       await sleep(INTERVALO_SECUENCIA);
     }
+  }
+
+  setPuntaje( contador: number, active: boolean ) {
+    this.puntaje$.next({
+      contador: contador,
+      active: active
+    });
   }
 }

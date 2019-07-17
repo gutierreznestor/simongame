@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { rubberBandAnimation, pulseAnimation, swingAnimation } from 'angular-animations';
+import { rubberBandAnimation, swingAnimation } from 'angular-animations';
 import { Palabra } from '../../models/palabra.interface';
 
 @Component({
