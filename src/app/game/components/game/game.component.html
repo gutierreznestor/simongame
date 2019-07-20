@@ -1,26 +1,26 @@
 <ion-grid fixed>
     <ion-row>
         <ion-col style='display: block'>
-            <ion-card style='max-width: 400px; margin: 0px auto;'>
+            <ion-card>
                 <ion-card-header color='primary'>
                     <ion-card-subtitle>Palabras</ion-card-subtitle>
                 </ion-card-header>
                 <ion-card-content>
-                    <ion-label [@bounce]="bounce" color='success' style='font-size: 50px'>{{contador}}</ion-label>
+                    <ion-label id='labelContador' color="success">{{contador}}</ion-label>
                 </ion-card-content>
             </ion-card>
         </ion-col>
     </ion-row>
     <ion-row>
         <ion-col >
-            <app-boton *ngFor='let boton of botonesPantalla' [palabra]='boton'
+            <app-boton *ngFor='let boton of botonesPantalla$ | async' [palabra]='boton'
                 (acertar)='acertarPalabra($event)'>
             </app-boton>
         </ion-col>
     </ion-row>
     <ion-row>
         <ion-col style='display: block'>
-            <ion-button style='max-width: 400px; margin: 0px auto;'
+            <ion-button
                 (click)="comenzarJuego()">
                 Comenzar
             </ion-button>

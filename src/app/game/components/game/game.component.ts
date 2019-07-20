@@ -14,22 +14,18 @@ export class GameComponent implements OnInit {
   simon: Palabra[] = [];
   jugador: string[] = [];
   contador: number = 0;
-  botonesPantalla: Palabra[] = [];
-  bounce: boolean = false;
+  botonesPantalla$ = this.logica.botonesPantalla$;
 
   constructor(
     private logica: LogicaService
   ) { }
 
   async ngOnInit() {
-    this.logica.state.subscribe( state => {
-      this.botonesPantalla = state.botonesPantalla;
-      this.simon = state.simon;
-      this.jugador = state.jugador;
-      this.contador = state.contador;
-      
-    } );
+    this.logica.puntaje$.subscribe( contador => {
+      this.contador = contador.contador;
+    });
     await this.logica.initJuego();
+
   }
 
   async acertarPalabra( palabra: Palabra ) { 
