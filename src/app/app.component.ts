@@ -33,7 +33,7 @@ export class AppComponent {
 
   reloadCache() {
     if( this.swUpdate.isEnabled ) {
-      this.swUpdate.available.subscribe( async ()=> {
+        this.swUpdate.available.subscribe( async ()=> {
         const alerta = await this.alertCtrl.create({
           message: 'Hay una nueva versión disponible. ¿Desea actualizar?',
           buttons: [{

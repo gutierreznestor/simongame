@@ -6,7 +6,7 @@
                     <ion-card-subtitle>Palabras</ion-card-subtitle>
                 </ion-card-header>
                 <ion-card-content>
-                    <ion-label id='labelContador' color="success">{{contador}}</ion-label>
+                    <ion-label color="success">{{contador}}</ion-label>
                 </ion-card-content>
             </ion-card>
         </ion-col>
@@ -20,8 +20,8 @@
     </ion-row>
     <ion-row>
         <ion-col style='display: block'>
-            <ion-button
-                (click)="comenzarJuego()">
+            <ion-button (click)="comenzarJuego()">
+                <ion-icon name="logo-game-controller-b"></ion-icon>
                 Comenzar
             </ion-button>
         </ion-col>
